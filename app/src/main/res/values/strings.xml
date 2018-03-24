@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ExamplePRC</string>
+    <string name="decompile">Decompile</string>
+    <string name="check_code">Check Code</string>
+    <string name="place_1">Place 1</string>
+    <string name="browse">Browse</string>
+    <string name="place_2">Place 2</string>
+    <string name="cfg">CFG</string>
+    <string name="hash">hash</string>
+    <string name="similar">Similar</string>
+</resources>
