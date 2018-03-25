@@ -7,6 +7,8 @@ import android.widget.Button;
 
 public class JavaShowActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE_PLACE_1 = 10090;
+    public static final int REQUEST_CODE_PLACE_2 = 1000;
     private Button btnPlace1;
     private Button btnPlace2;
 
@@ -20,15 +22,26 @@ public class JavaShowActivity extends AppCompatActivity {
 
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
-            startActivityForResult(intent,10090);
+            startActivityForResult(intent, REQUEST_CODE_PLACE_1);
 
         });
         btnPlace2.setOnClickListener(v -> {
-
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
-            startActivityForResult(intent,1000);
+            startActivityForResult(intent, REQUEST_CODE_PLACE_2);
 
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_PLACE_1) {
+
+            } else if (requestCode == REQUEST_CODE_PLACE_2) {
+
+            }
+        }
     }
 }
