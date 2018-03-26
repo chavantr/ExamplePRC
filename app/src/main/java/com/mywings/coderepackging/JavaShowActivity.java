@@ -19,11 +19,9 @@ public class JavaShowActivity extends AppCompatActivity {
         btnPlace1 = findViewById(R.id.btnBrowse1);
         btnPlace2 = findViewById(R.id.btnBrowse2);
         btnPlace1.setOnClickListener(v -> {
-
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
             startActivityForResult(intent, REQUEST_CODE_PLACE_1);
-
         });
         btnPlace2.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
