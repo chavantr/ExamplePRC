@@ -21,11 +21,13 @@ public class JavaShowActivity extends AppCompatActivity {
         btnPlace1.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             startActivityForResult(intent, REQUEST_CODE_PLACE_1);
         });
         btnPlace2.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             startActivityForResult(intent, REQUEST_CODE_PLACE_2);
 
         });
