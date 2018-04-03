@@ -3,7 +3,7 @@
 package com.mywings.coderepackging;
 
 
-
+import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class CosineSimilarity {
 
     double getCosineSimilarityWith(CosineSimilarity otherVector) {
         double innerProduct = 0;
-        for(String w: this.wordMap.keySet()) {
+        for (String w : this.wordMap.keySet()) {
             innerProduct += this.getCount(w) * otherVector.getCount(w);
         }
         return innerProduct / (this.getNorm() * otherVector.getNorm());
@@ -40,24 +40,28 @@ public class CosineSimilarity {
         String doc1 = vector1;
         String doc2 = vector2;
 
+        if (TextUtils.isEmpty(doc1) && TextUtils.isEmpty(doc2)) {
+            return 0;
+        }
+
         CosineSimilarity v1 = new CosineSimilarity();
-        for(String w:doc1.split("[^a-zA-Z]+")) {
+        for (String w : doc1.split("[^a-zA-Z]+")) {
             v1.incCount(w);
         }
 
         CosineSimilarity v2 = new CosineSimilarity();
-        for(String w:doc2.split("[^a-zA-Z]+")) {
+        for (String w : doc2.split("[^a-zA-Z]+")) {
             v2.incCount(w);
         }
 
         //System.out.println("Similarity = " + v1.getCosineSimilarityWith(v2));
         return v1.getCosineSimilarityWith(v2);
     }
-public static void main(String args[])
-{
-    double weight=0.0;
-           CosineSimilarity cs=new CosineSimilarity();
-           weight=cs.GetSimilarity("ppj", "ppj s");
-           System.out.println("Weight is \t"+weight);
-}
+
+    public static void main(String args[]) {
+        double weight = 0.0;
+        CosineSimilarity cs = new CosineSimilarity();
+        weight = cs.GetSimilarity("ppj", "ppj s");
+        System.out.println("Weight is \t" + weight);
+    }
 }

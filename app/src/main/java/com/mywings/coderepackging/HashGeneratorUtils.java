@@ -7,11 +7,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * Hash functions utility class.
- * @author www.codejava.net
- *
- */
+
 public class HashGeneratorUtils {
 	public HashGeneratorUtils() {
 		
@@ -55,7 +51,7 @@ public static void main(String args[]) throws HashGenerationException {
 		}
 	}
 	
-	private static String hashFile(File file, String algorithm)
+	public static String hashFile(File file, String algorithm)
 			throws HashGenerationException, FileNotFoundException, NoSuchAlgorithmException, IOException {
 		 @SuppressWarnings("resource")
 		FileInputStream inputStream = new FileInputStream(file); 

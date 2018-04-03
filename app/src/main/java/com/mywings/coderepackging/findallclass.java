@@ -10,10 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author JP
- */
+
 public class findallclass {
   public static  String exe="()";
 public static int i=0;
