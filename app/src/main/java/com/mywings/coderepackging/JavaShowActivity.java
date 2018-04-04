@@ -37,6 +37,7 @@ public class JavaShowActivity extends AppCompatActivity {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             startActivityForResult(intent, REQUEST_CODE_PLACE_1);
         });
+
         btnPlace2.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
@@ -44,6 +45,7 @@ public class JavaShowActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_CODE_PLACE_2);
 
         });
+
         btnHash.setOnClickListener(v -> {
 
             if (null != place1 && place2 != null) {
