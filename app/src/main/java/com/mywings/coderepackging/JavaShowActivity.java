@@ -5,17 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.security.NoSuchAlgorithmException;
 
 public class JavaShowActivity extends AppCompatActivity {
 
@@ -29,6 +22,8 @@ public class JavaShowActivity extends AppCompatActivity {
     private Button btnSimilar;
     private Button btnCFG;
     private double weight;
+    private ProgressBar pbPleaseWait;
+
 
 
     @Override
@@ -40,17 +35,19 @@ public class JavaShowActivity extends AppCompatActivity {
         btnHash = findViewById(R.id.btnHash);
         btnSimilar = findViewById(R.id.btnSimilar);
         btnCFG = findViewById(R.id.btnCFG);
+        pbPleaseWait = findViewById(R.id.pbPleaseWait);
 
         btnPlace1.setOnClickListener(v -> {
+            pbPleaseWait.setVisibility(View.VISIBLE);
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-            startActivityForResult(Intent.createChooser(intent, "Choose directory"), REQUEST_CODE_PLACE_1);
+            startActivityForResult(Intent.createChooser(intent, "Choose directory for place 1"), REQUEST_CODE_PLACE_1);
 
         });
 
         btnPlace2.setOnClickListener(v -> {
+            pbPleaseWait.setVisibility(View.VISIBLE);
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-
-            startActivityForResult(Intent.createChooser(intent, "Choose directory"), REQUEST_CODE_PLACE_2);
+            startActivityForResult(Intent.createChooser(intent, "Choose directory for place 2"), REQUEST_CODE_PLACE_2);
         });
 
         btnHash.setOnClickListener(v -> {
@@ -68,9 +65,7 @@ public class JavaShowActivity extends AppCompatActivity {
         });
 
         btnSimilar.setOnClickListener((v) -> {
-
             CosineSimilarity cs = new CosineSimilarity();
-
             weight = cs.GetSimilarity(place1, place2);
 
             if (weight > 0) {
@@ -110,31 +105,70 @@ public class JavaShowActivity extends AppCompatActivity {
                 for (DocumentFile file : documentFile.listFiles()) {
                     if (file.isDirectory()) {
                         for (DocumentFile innerFile : file.listFiles()) {
-                            FileListProvider.getInstance().placeFirstFiles.put(innerFile.getName(), innerFile.getUri());
+                            if (innerFile.isDirectory()) {
+                                for (DocumentFile iFile : innerFile.listFiles()) {
+                                    if (iFile.isDirectory()) {
+                                        for (DocumentFile iiFile : iFile.listFiles()) {
+                                            if (iiFile.isDirectory()) {
+                                                for (DocumentFile lastFile : iiFile.listFiles()) {
+                                                    if (!lastFile.isDirectory()) {
+                                                        FileListProvider.getInstance().placeFirstFiles.put(lastFile.getName(), lastFile.getUri());
+                                                    }
+                                                }
+                                            } else {
+                                                FileListProvider.getInstance().placeFirstFiles.put(iiFile.getName(), iiFile.getUri());
+                                            }
+                                        }
+                                    } else {
+                                        FileListProvider.getInstance().placeFirstFiles.put(iFile.getName(), iFile.getUri());
+                                    }
+                                }
+                            } else {
+                                FileListProvider.getInstance().placeFirstFiles.put(innerFile.getName(), innerFile.getUri());
+                            }
                         }
                     } else if (file.isFile()) {
                         FileListProvider.getInstance().placeFirstFiles.put(file.getName(), file.getUri());
                     }
                 }
             } else if (requestCode == REQUEST_CODE_PLACE_2) {
-
                 if (null != FileListProvider.getInstance().placeSecondFiles) {
                     FileListProvider.getInstance().placeSecondFiles.clear();
                 }
-
                 Uri filePath = data.getData();
                 DocumentFile documentFile = DocumentFile.fromTreeUri(this, filePath);
                 for (DocumentFile file : documentFile.listFiles()) {
                     if (file.isDirectory()) {
                         for (DocumentFile innerFile : file.listFiles()) {
-                            FileListProvider.getInstance().placeSecondFiles.put(innerFile.getName(), innerFile.getUri());
+                            if (innerFile.isDirectory()) {
+                                for (DocumentFile iFile : innerFile.listFiles()) {
+                                    if (iFile.isDirectory()) {
+                                        for (DocumentFile iiFile : iFile.listFiles()) {
+                                            if (iiFile.isDirectory()) {
+                                                for (DocumentFile lastFile : iiFile.listFiles()) {
+                                                    if (!lastFile.isDirectory()) {
+                                                        FileListProvider.getInstance().placeSecondFiles.put(lastFile.getName(), lastFile.getUri());
+                                                    }
+                                                }
+                                            } else {
+                                                FileListProvider.getInstance().placeSecondFiles.put(iiFile.getName(), iiFile.getUri());
+                                            }
+                                        }
+                                    } else {
+                                        FileListProvider.getInstance().placeSecondFiles.put(iFile.getName(), iFile.getUri());
+                                    }
+                                }
+                            } else {
+                                FileListProvider.getInstance().placeSecondFiles.put(innerFile.getName(), innerFile.getUri());
+                            }
                         }
                     } else if (file.isFile()) {
                         FileListProvider.getInstance().placeSecondFiles.put(file.getName(), file.getUri());
                     }
                 }
-
             }
         }
+
+        pbPleaseWait.setVisibility(View.GONE);
     }
 }
