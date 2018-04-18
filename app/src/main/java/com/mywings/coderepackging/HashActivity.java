@@ -1,8 +1,8 @@
 package com.mywings.coderepackging;
 
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,8 +15,7 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Map;
 
-public class CFGProcessingActivity extends AppCompatActivity {
-
+public class HashActivity extends AppCompatActivity {
 
     private TextView lblHowPercentage;
     private ProgressBar pbPleaseWait;
@@ -24,7 +23,7 @@ public class CFGProcessingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cfgprocessing);
+        setContentView(R.layout.activity_hash);
 
         lblHowPercentage = findViewById(R.id.lblHowPercent);
         pbPleaseWait = findViewById(R.id.pbPleaseWait);
@@ -40,11 +39,18 @@ public class CFGProcessingActivity extends AppCompatActivity {
                     Uri uriFirst = (Uri) pair.getValue();
                     Uri uriSecond = FileListProvider.getInstance().placeSecondFiles.get(pair.getKey());
                     try {
-                        String strFirst = readTextFromUri(uriFirst);
-                        String strSecond = readTextFromUri(uriSecond);
-                        if (strFirst.equalsIgnoreCase(strSecond)) {
-                            fileCount += 1;
-                            resultStatitics.setSameFileCount(fileCount);
+                        try {
+                            String strFirst = readTextFromUri(uriFirst);
+                            String strSecond = readTextFromUri(uriSecond);
+                            HashGeneratorUtils generatorUtils = new HashGeneratorUtils();
+                            String first = generatorUtils.generateSHA1(strFirst);
+                            String second = generatorUtils.generateSHA256(strSecond);
+                            if (first.equalsIgnoreCase(second)) {
+                                fileCount += 1;
+                                resultStatitics.setSameFileCount(fileCount);
+                            }
+                        } catch (HashGenerationException e) {
+                            e.printStackTrace();
                         }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -71,6 +77,7 @@ public class CFGProcessingActivity extends AppCompatActivity {
             }
         }
         pbPleaseWait.setVisibility(View.GONE);
+
     }
 
     private String readTextFromUri(Uri uri) throws IOException {
@@ -84,5 +91,4 @@ public class CFGProcessingActivity extends AppCompatActivity {
         }
         return stringBuilder.toString();
     }
-
 }

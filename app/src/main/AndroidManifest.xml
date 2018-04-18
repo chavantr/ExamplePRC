@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -22,15 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".JavaShowActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".CFGProcessingActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SimilarityProcessingActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".HashActivity"></activity>
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.mywings.coderepackging;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -15,14 +16,14 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Map;
 
-public class CFGProcessingActivity extends AppCompatActivity {
+public class SimilarityProcessingActivity extends AppCompatActivity {
 
 
     private TextView lblHowPercentage;
     private ProgressBar pbPleaseWait;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cfgprocessing);
 
@@ -42,7 +43,9 @@ public class CFGProcessingActivity extends AppCompatActivity {
                     try {
                         String strFirst = readTextFromUri(uriFirst);
                         String strSecond = readTextFromUri(uriSecond);
-                        if (strFirst.equalsIgnoreCase(strSecond)) {
+                        CosineSimilarity cs = new CosineSimilarity();
+                        double weight = cs.GetSimilarity(strFirst, strSecond);
+                        if (weight > 0) {
                             fileCount += 1;
                             resultStatitics.setSameFileCount(fileCount);
                         }
@@ -72,6 +75,7 @@ public class CFGProcessingActivity extends AppCompatActivity {
         }
         pbPleaseWait.setVisibility(View.GONE);
     }
+
 
     private String readTextFromUri(Uri uri) throws IOException {
         InputStream inputStream = getContentResolver().openInputStream(uri);

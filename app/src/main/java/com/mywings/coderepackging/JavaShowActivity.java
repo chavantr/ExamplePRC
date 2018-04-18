@@ -25,7 +25,6 @@ public class JavaShowActivity extends AppCompatActivity {
     private ProgressBar pbPleaseWait;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,24 +64,22 @@ public class JavaShowActivity extends AppCompatActivity {
         });
 
         btnSimilar.setOnClickListener((v) -> {
-            CosineSimilarity cs = new CosineSimilarity();
-            weight = cs.GetSimilarity(place1, place2);
+            if (null != FileListProvider.getInstance().placeFirstFiles && FileListProvider.getInstance().placeSecondFiles != null && FileListProvider.getInstance().placeFirstFiles.size() > 0 && FileListProvider.getInstance().placeSecondFiles.size() > 0) {
+                Intent intent = new Intent(JavaShowActivity.this, SimilarityProcessingActivity.class);
+                startActivity(intent);
 
-            if (weight > 0) {
-                Toast.makeText(JavaShowActivity.this, "Similarity found", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(JavaShowActivity.this, "No similarity found", Toast.LENGTH_LONG).show();
+                Toast.makeText(JavaShowActivity.this, "Select both files source code", Toast.LENGTH_LONG).show();
             }
+
 
         });
 
         btnCFG.setOnClickListener((v) -> {
 
             if (null != FileListProvider.getInstance().placeFirstFiles && FileListProvider.getInstance().placeSecondFiles != null && FileListProvider.getInstance().placeFirstFiles.size() > 0 && FileListProvider.getInstance().placeSecondFiles.size() > 0) {
-
                 Intent intent = new Intent(JavaShowActivity.this, CFGProcessingActivity.class);
                 startActivity(intent);
-
             } else {
                 Toast.makeText(JavaShowActivity.this, "Select both files source code", Toast.LENGTH_LONG).show();
             }
